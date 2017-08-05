@@ -1,0 +1,21 @@
+{
+  "name": "header-footer",
+  "version" : "1.0.0",
+  "authors": [
+    "Vinay Kumar"
+  ],
+  "description": "Use this compenents for header and footer",
+  "main": "",
+  "keywords": [
+    "header-footer"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/mailtovinay/header-footer",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

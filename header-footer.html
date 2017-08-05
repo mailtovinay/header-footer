@@ -1,0 +1,79 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<!--
+`<header>` is Description
+
+@element header
+-->
+<dom-module id="header-footer-component">
+    <template>
+        <style>
+            :host {
+                display: block
+            }
+</style>
+<div class="headerContent">
+    <img src="{{logo}}" alt="header.png"/>
+    <h1>{{title}}</h1>
+    <template is="dom-if" if="{{menu.length > 0}}" >
+        <div>
+        <template is="dom-repeat" items="{{menu}}" as="menu">
+            <span>{{menu.name}}</span>
+        </template>
+        </div>
+    </template>
+    <template is="dom-if" if="{{copyright}}" >
+    <div >{{copyright}}</div>
+    </template>
+
+</div>
+        
+
+    </template>
+
+    <script>
+        class headerElement extends Polymer.Element {
+
+            static get is() { return 'header-footer-component'; }
+
+            static get properties() {
+                return {
+                    title : {
+                        type: String,
+                        value : "",
+                        reflectToAttribute : true
+                    },
+                    type :{
+                        type : String,
+                        value : "header",
+                        reflectToAttribute : true
+                    },
+                    logo : {
+                        type : Image,
+                        value : "header.png",
+                        reflectToAttribute : true
+
+                    },
+                    copyright : {
+                        type : String,
+                        value : ""
+
+                    },
+                    menu :{
+                        type :Array,
+                        value : [{"name" : "My Account"},{"name" : "My Transcations"}],
+                        reflectToAttribute : true
+                    }
+                    
+                };
+            }
+
+            constructor() {
+                super();
+            }
+
+        }
+
+        window.customElements.define(headerElement.is, headerElement);
+    </script>
+</dom-module>
