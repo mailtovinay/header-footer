@@ -1,56 +1,198 @@
-<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../polymer/polymer-element.html">
 
 <!--
 `<header>` is Description
 
 @element header
 -->
-<dom-module id="header-footer-component">
+<dom-module id="header-footer">
     <template>
         <style>
             :host {
                 display: block
             }
+            .wrapper {
+                width: 100%;
+                float: left;
+                clear: left;
+            }
+            .header {
+                border-bottom: solid 1px #eee;
+            }
+            .header .comp-content {
+                padding: 15px 0;
+            }
+            .footer {
+                border-top: solid 1px #eee;
+                padding: 20px 0 30px;
+            }
+            .footer .comp-content {
+                padding: 0px 0;
+            }
+            .container {
+                padding: 0 20px;
+                margin: 0 auto;
+                width: 100%;
+                box-sizing: border-box;                
+            }
+            .fixed .container {
+                max-width: 1140px;
+            }
+            .fluid .container {
+                max-width: 100%;
+            }
+            .comp-content {
+                width: 100%;
+                float: left;
+                clear: left;
+                box-sizing: border-box;
+            }
+            .copyright {
+                float: right;
+                font-size: 13px;
+                color: #232323;
+            }
+            #logo {
+                float: left;
+                max-width: 200px;
+                height: 40px;
+            }
+            /* #logo::before {
+                content: '';
+                vertical-align: middle;
+                display: inline-block;
+                height: 100%;
+                margin-left: -0.25em;
+            } */
+            #logo img {
+                max-width: calc(100% - 0.25em);
+                display: inline-block;
+                vertical-align: middle;
+            }
+            .tagline {
+display: block;
+    font-size: 13px;
+    margin: 5px 0 0;
+    padding: 3px 5px;
+    color: #232323;
+    text-align: center;
+    background: #fafafa;
+    border-top: solid 1px #eee;
+    border-bottom: solid 1px #eee;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-style: italic;
+            }
+            .menu {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+            .header .menu {
+                float: right;
+                padding-top: 3x;
+            }
+            .footer .menu {
+                float: left;
+            }
+            .menu li {
+                float: left;
+                padding: 0;
+                margin: 0;
+            }
+            .footer .menu li::before {
+                content: '/';
+                display: inline-block;
+            }
+            .footer .menu li:first-child::before {
+                content: '';
+            }
+            .menu li a {
+                display: inline-block;
+                font-size: 14px;
+                color: #232323;
+                padding: 10px 15px;
+                text-decoration: none;
+            }
+            .header .menu li a:hover, .header .menu li a.active {
+                color: #fff;
+                border-radius: 4px;
+                background: #026bb4;
+            }
+            .footer .menu li a:hover {
+                text-decoration:  underline;
+            }
+            .footer .menu li a {
+                font-size: 13px;
+                color: #232323;
+                padding: 0px 5px;
+                text-decoration: none;
+            }
 </style>
-<div class="headerContent">
-    <img src="{{logo}}" alt="header.png"/>
-    <h1>{{title}}</h1>
+<div class$="wrapper {{type}} {{layout}}">
+    <div class="container">
+        <div class="comp-content">
+            <template is="dom-if" if="{{_checktype(type)}}" >
+            <div id="logo">
+                <img src="{{logo}}" alt="header.png" alt="{{tagline}}" />
+                <div class="tagline">{{tagline}}</div>
+            </div>
+            </template>
     <template is="dom-if" if="{{menu.length > 0}}" >
-        <div>
+        <ul class="menu">
         <template is="dom-repeat" items="{{menu}}" as="menu">
-            <span>{{menu.name}}</span>
+            <li><a class$="{{menu.default}}" href="{{menu.url}}" target="{{menu.target}}"><span>{{menu.name}}</span></span></li>
         </template>
-        </div>
+        </ul>
     </template>
-    <template is="dom-if" if="{{copyright}}" >
-    <div >{{copyright}}</div>
+    <template is="dom-if" if="{{!_checktype(type)}}" >
+        <template is="dom-if" if="{{copyright}}" >
+            <div class="copyright">{{copyright}}</div>
+        </template>
     </template>
 
-</div>
-        
+        </div>
+    </div>
+</div> 
 
     </template>
 
     <script>
         class headerElement extends Polymer.Element {
 
-            static get is() { return 'header-footer-component'; }
-
+            static get is() { return 'header-footer'; }
+            _checktype(type){
+                if(type == 'header') {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
             static get properties() {
                 return {
-                    title : {
+                    tagline : {
                         type: String,
                         value : "",
                         reflectToAttribute : true
                     },
                     type :{
                         type : String,
-                        value : "header",
+                        value : "",
+                        reflectToAttribute : true
+                    },
+                    layout :{
+                        type : String,
+                        value : "fixed",
+                        reflectToAttribute : true
+                    },
+                    layoutwidth: {
+                        type: Number,
+                        value: 1140,
                         reflectToAttribute : true
                     },
                     logo : {
                         type : Image,
-                        value : "header.png",
+                        value : "",
                         reflectToAttribute : true
 
                     },
@@ -61,11 +203,14 @@
                     },
                     menu :{
                         type :Array,
-                        value : [{"name" : "My Account"},{"name" : "My Transcations"}],
+                        value : '',
                         reflectToAttribute : true
                     }
                     
                 };
+            }
+            _activestate(value){
+
             }
 
             constructor() {
